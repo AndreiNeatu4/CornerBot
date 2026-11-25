@@ -32,7 +32,7 @@ switch upper(type)
             opt = rlTD3AgentOptions;
         end
         if isprop(opt, "NoiseOptions"), noise = "NoiseOptions"; else, noise = "ExplorationModel"; end
-        opt.(noise).StandardDeviation = 0.3;
+        opt.(noise).StandardDeviation = 0.1;
         opt.(noise).StandardDeviationDecayRate = 1e-5;
         opt = commonOpts(opt, p);
         if strcmpi(type, "DDPG")
