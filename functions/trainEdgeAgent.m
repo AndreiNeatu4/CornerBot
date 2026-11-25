@@ -1,10 +1,12 @@
-function [agent, stats] = trainEdgeAgent(type, maxEpisodes, plots)
+function [agent, stats] = trainEdgeAgent(type, maxEpisodes, plots, renderEvery)
 % Two-phase training on the edge, saved to models/.
 % Phase 1: small starts. Phase 2: wider starts and pushes.
 if nargin < 2, maxEpisodes = 2000; end
 if nargin < 3, plots = "training-progress"; end
+if nargin < 4, renderEvery = 0; end
 p = cubeParams();
 r = rlParams();
+r.renderEvery = renderEvery;
 
 env = createEdgeEnv(p, r);
 agent = createAgent(type, env, p);

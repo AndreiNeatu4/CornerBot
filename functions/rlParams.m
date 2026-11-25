@@ -11,4 +11,5 @@ r.randomize = true;                 % new cube each episode
 r.nPush     = 0;                    % max pushes per episode
 r.pushMax   = 0.06;                 % [N m]
 r.pushSteps = 3;                    % 45 ms
+r.renderEvery = 0;                  % draw every Nth episode, 0 = off
 end
