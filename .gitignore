@@ -1,0 +1,31 @@
+# MATLAB / Simulink generated
+slprj/
+codegen/
+*.slxc
+*.asv
+*.autosave
+*.mex*
+*.mlappx~
+*.slx.r*
+sccprj/
+
+# Training output (keep only final agents in models/)
+models/checkpoints/
+savedAgents/
+Results/
+*_Result*/
+
+# Office lock files
+~$*
+
+# Arduino build
+firmware/**/build/
+
+# Videos (link in README instead)
+*.mp4
+*.mov
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
