@@ -1,42 +1,56 @@
 function p = cubeParams()
-% Cube, motor and firmware parameters. Estimates until measured.
+% Cube, motor and firmware parameters.
+% Sources: remrc STL files (thing:6695891), remrc firmware esp32_cube_enc.
+% (est) = estimate, replace with measurement.
 
 p.g = 9.81;
 
-% Cube
-p.a  = 0.15;              % side [m]
-p.m  = 0.80;              % total mass [kg]
-p.l  = p.a/sqrt(2);       % edge to COM [m]
-p.Ib = 2/3*p.m*p.a^2;     % inertia about edge [kg m^2]
-p.cb = 1e-4;              % pivot friction [N m s]
+% Printed parts: PLA, 50-60% infill
+rhoPLA = 1240*0.75;                 % effective [kg/m^3] (est)
+vFrame = (24.64 + 1.29 + 5.81 + 6.51 + 16.29 + 1.23 + 41.33 ...
+          + 104.3 + 86.2)*1e-6;     % all but wheels, from STL [m^3]
+vWheel = 24.2e-6;                   % one wheel, from STL [m^3]
 
-% Wheel
-p.mw = 0.08;              % [kg]
-p.rw = 0.04;              % [m]
-p.Iw = 0.7*p.mw*p.rw^2;   % rim-weighted disc [kg m^2]
-p.cw = 2e-5;              % bearing friction [N m s]
+% Wheel (x3)
+p.rimMass = 0;                      % metal in rim groove, per wheel (est)
+p.rimR    = 0.060;                  % groove radius [m]
+p.mw = rhoPLA*vWheel + p.rimMass;   % [kg]
+p.Iw = rhoPLA*vWheel*2165e-6 + p.rimMass*p.rimR^2; % STL: I/m = 2165 mm^2
+p.cw = 2e-5;                        % bearing friction [N m s] (est)
+
+% Cube
+p.a  = 0.152;                       % side, from STL [m]
+mMotor = 0.100;                     % Nidec 24H (est)
+mBatt  = 0.045;                     % 3S 500 mAh (est)
+mElec  = 0.070;                     % ESP32, wiring, screws (est)
+p.m  = rhoPLA*vFrame + 3*p.mw + 3*mMotor + mBatt + mElec;
+p.l  = p.a/sqrt(2);                 % edge to COM [m]
+p.Ib = (0.22 + 0.5)*p.m*p.a^2;      % about edge, mostly hollow (est)
+p.cb = 1e-4;                        % pivot friction [N m s] (est)
 
 % Motor (Nidec 24H)
-p.Vnom    = 12;           % [V]
-p.Tstall  = 0.05;         % at Vnom [N m]
-p.wNoLoad = 400;          % at Vnom [rad/s]
-p.Vbat    = 11.1;         % 3S [V]
-p.encCPR  = 200;          % counts/rev
+p.Vnom    = 12;                     % [V]
+p.Tstall  = 0.05;                   % at Vnom [N m] (est)
+p.wNoLoad = 400;                    % at Vnom [rad/s] (est)
+p.Vbat    = 11.1;                   % 3S [V]
+p.encCPR  = 400;                    % x4 decoding, 100 PPR (est)
 
 % Firmware
-p.dt        = 0.015;      % control step [s]
-p.nSub      = 15;         % physics substeps
+p.dt        = 0.015;                % loop_time [s]
+p.nSub      = 15;                   % physics substeps
 p.pwmMax    = 255;
-p.alphaComp = 0.996;
-p.alphaGyro = 0.7;
+p.alphaComp = 0.996;                % Gyro_amount
+p.alphaGyro = 0.7;                  % alpha
+p.gyroIntScale = 131/65.536;        % angle_calc uses /65.536, range is 131 LSB
+p.accDiv    = 5;                    % motors_speed += speed/5
 p.fallDeg   = 7;
 p.edgeGains   = [190 31 2.5 0.014];
 p.cornerGains = [180 30 1.6 0.008];
 p.yawGains    = [8 0.3];
 
 % Sensors
-p.accNoiseDeg  = 0.3;     % std [deg]
-p.gyroNoiseDps = 0.05;    % std [deg/s]
-p.gyroLsb      = 1/131;   % [deg/s]
+p.accNoiseDeg  = 0.3;               % std [deg] (est)
+p.gyroNoiseDps = 0.05;              % std [deg/s] (est)
+p.gyroLsb      = 1/131;             % [deg/s]
 p.noise        = true;
 end

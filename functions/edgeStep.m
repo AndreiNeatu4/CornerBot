@@ -1,7 +1,13 @@
 function s = edgeStep(s, u, p, Tdist)
-% One 15 ms control step. obs = [angle deg, gyro deg/s, wheel counts/step, accumulated counts].
+% One 15 ms control step, firmware order.
+% obs = [angle deg, gyro deg/s, wheel counts/step, accumulated].
 if nargin < 4, Tdist = 0; end
+ws = s.obs(3);
+
+% Firmware: accumulate after PWM, Motor3_control adds wheel speed
+s.acc = s.acc + fix(ws/p.accDiv);
 u = max(-p.pwmMax, min(p.pwmMax, u));
+u = max(-p.pwmMax, min(p.pwmMax, u + ws));
 h = p.dt/p.nSub;
 
 % Physics, semi-implicit Euler
@@ -33,7 +39,6 @@ s.gyroF = p.alphaGyro*gyro + (1 - p.alphaGyro)*s.gyroF;
 c  = round(x(4)*p.encCPR/(2*pi));
 ws = c - s.counts;
 s.counts = c;
-s.acc = s.acc + ws;
 
 s.obs = [s.angF s.gyroF ws s.acc];
 s.fallen = abs(rad2deg(x(1))) > p.fallDeg;
