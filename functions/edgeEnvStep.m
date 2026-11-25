@@ -1,7 +1,9 @@
-function [obs, R, done, ls] = edgeEnvStep(a, ls, p, r)
+function [obs, R, done, ls] = edgeEnvStep(a, ls, ~, r)
 % Action in [-1 1] -> PWM.
+p = ls.p;
 a = max(-1, min(1, a(1)));
-ls.s = edgeStep(ls.s, a*p.pwmMax, p);
+on = ls.k >= ls.pushK & ls.k < ls.pushK + r.pushSteps;
+ls.s = edgeStep(ls.s, a*p.pwmMax, p, sum(ls.pushT(on)));
 ls.k = ls.k + 1;
 
 o   = ls.s.obs./r.obsScale;

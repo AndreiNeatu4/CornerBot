@@ -27,6 +27,7 @@ p.m  = rhoPLA*vFrame + 3*p.mw + 3*mMotor + mBatt + mElec;
 p.l  = p.a/sqrt(2);                 % edge to COM [m]
 p.Ib = (0.22 + 0.5)*p.m*p.a^2;      % about edge, mostly hollow (est)
 p.cb = 1e-4;                        % pivot friction [N m s] (est)
+p.comOffset = 0;                    % COM vs calibrated balance [rad]
 
 % Motor (Nidec 24H)
 p.Vnom    = 12;                     % [V]
