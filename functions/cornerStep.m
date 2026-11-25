@@ -13,7 +13,7 @@ X = -pwm(1); Y = pwm(2); Z = -pwm(3);
 m = [round((0.5*X - 0.866*Y)/1.37 + Z);
      round((0.5*X + 0.866*Y)/1.37 + Z);
      fix(-X/1.37 + Z)];
-u = c(m + s.ws);                           % MotorN_control adds own speed
+u = c(g.Qm'*m + s.ws);                     % virtual -> physical motors; MotorN_control adds own speed
 
 % Physics, semi-implicit Euler
 h = p.dt/p.nSub;
@@ -37,7 +37,7 @@ if p.noise
     gyro = gyro + p.gyroNoiseDps*randn(3,1);
     nA = deg2rad(p.accNoiseDeg);
 end
-gyro = round(gyro/p.gyroLsb)*p.gyroLsb;
+gyro = g.Qs*(round(gyro/p.gyroLsb)*p.gyroLsb);   % virtual sensor
 [aX, aY] = accAngles(s.R, g, p, nA);
 
 % Firmware filters
@@ -50,6 +50,7 @@ s.gYf = p.alphaGyro*gyro(2) + (1 - p.alphaGyro)*s.gYf;
 cnt = round(psi*p.encCPR/(2*pi));
 s.ws = cnt - s.counts;
 s.counts = cnt;
+s.wsv = g.Qm*s.ws;
 
 s.obs = cornerObs(s, gyro(3));
 s.tilt = tiltOf(s);

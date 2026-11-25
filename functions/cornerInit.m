@@ -14,7 +14,8 @@ s.psi  = zeros(3,1);
 s.angX = accX; s.angY = accY;
 s.gXf = 0; s.gYf = 0;
 s.counts = zeros(3,1);
-s.ws  = zeros(3,1);
+s.ws  = zeros(3,1);                        % physical counts/step
+s.wsv = zeros(3,1);                        % virtual (canonical) counts/step
 s.accXs = 0; s.accYs = 0;
 s.obs = cornerObs(s, 0);
 s.tilt = tiltOf(s);

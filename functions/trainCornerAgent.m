@@ -1,14 +1,18 @@
 function [agent, stats] = trainCornerAgent(corner, type, maxEpisodes, plots, renderEvery)
-% Two-phase training on a corner (1 = A, 2 = B), saved to models/.
+% Two-phase training on a corner (1 = A, 2 = B, "all" = random corner each episode).
 if nargin < 3, maxEpisodes = 3000; end
 if nargin < 4, plots = "training-progress"; end
 if nargin < 5, renderEvery = 0; end
 p = cubeParams();
-p.corner = corner;
 r = rlParams();
+if corner == "all"
+    r.allPositions = true; tag = "All";
+else
+    p.corner = corner; tag = char('A' + corner - 1);
+end
 r.obsScale = [7 7 100 100 100 300 300 2000 2000 900];
 r.renderEvery = renderEvery;
-name = "corner" + char('A' + corner - 1) + "_" + upper(type);
+name = "corner" + tag + "_" + upper(type);
 root = fileparts(fileparts(mfilename("fullpath")));
 
 env = createCornerEnv(p, r);

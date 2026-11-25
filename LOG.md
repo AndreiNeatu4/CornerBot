@@ -20,3 +20,5 @@
 - Classical corner: 10/10 starts ±1°, mean tilt 0.07°, survives 0.08 N m push.
 - COM shifted toward corner A (wheels/motors near its faces): 6.7 cm per axis instead of 7.6. Edge l = 9.5 cm.
 - Corner B (opposite, upside down) added: firmware angles Acc_angleY = -atan2(AcX, AcZ), Acc_angleX = atan2(AcY, AcZ). Same gains balance both corners; B slightly more stable (COM 14.7 cm vs 11.6 cm from pivot).
+- All positions: signed axis permutation Q maps any corner to corner A frame (virtual sensors/encoders in, motor commands out) + calibration offsets at the balance point. Classical firmware gains balance all 8 corners (10/10 each) and all 3 edge types (l = 9.5, 10.8, 12.0 cm).
+- trainCornerAgent("all", ...) and trainEdgeAgent(..., allEdges=true): one general agent per mode, random position each episode.

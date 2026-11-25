@@ -3,6 +3,7 @@ function [obs, ls] = cornerEnvReset(p, r)
 persistent ep
 if isempty(ep), ep = 0; end
 ep = ep + 1;
+if isfield(r, "allPositions") && r.allPositions, p.cornerV = randi([0 1], 1, 3); end
 if r.randomize
     p = randomizeParams(p);
     p.comAxis = p.comAxis*(1 + 0.05*(2*rand - 1));
