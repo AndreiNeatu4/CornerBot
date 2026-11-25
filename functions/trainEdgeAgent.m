@@ -11,13 +11,15 @@ r.renderEvery = renderEvery;
 env = createEdgeEnv(p, r);
 agent = createAgent(type, env, p);
 stats = {runPhase(agent, env, r, maxEpisodes, plots, 0.9)};
+root = fileparts(fileparts(mfilename("fullpath")));
+save(fullfile(root, "models", "edge" + upper(type) + "_phase1.mat"), "agent", "stats", "p", "r");
 
-r.initTilt = 1.5;
+r.initTilt = 1.0;
 r.nPush = 3;
+r.pushMax = 0.04;
 env = createEdgeEnv(p, r);
 stats{2} = runPhase(agent, env, r, maxEpisodes, plots, 0.85);
 
-root = fileparts(fileparts(mfilename("fullpath")));
 save(fullfile(root, "models", "edge" + upper(type) + ".mat"), "agent", "stats", "p", "r");
 end
 
