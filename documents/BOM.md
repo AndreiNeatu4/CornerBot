@@ -25,7 +25,7 @@ Based on remrc's cube (thing:6695891, github.com/remrc/Self-Balancing-Cube).
 |---|---|---|
 | ~0.5 kg | PLA filament | 50–60% infill, 0.2 mm |
 | 1 set | M3 screws (8–16 mm) and nuts | |
-| ? | Rim weights for wheel groove | check thingiverse description |
+| 48 (up to 96) | M4×12 bolts + M4 nuts, rim weights | 16 per wheel; 32 holes per wheel available |
 
 ## Tools
 - Soldering iron, multimeter, USB cable for ESP32

@@ -12,3 +12,5 @@
 - Motor: Nidec 24H (AliExpress). Seller: 100-line 2-ch encoder, 3020 rpm no-load at 12 V. Stall torque still unknown.
 - DDPG edge agent (2x64): first run with ±2° starts did not learn (falls in ~0.2 s). With ±0.5° starts and noise 0.1 it reached avg reward 1900/2000 in 724 episodes.
 - DDPG vs classical: ±0.5° starts 10/10 both; ±2° starts 3/10 vs 10/10; pushes: both survive 0.05 N m, both fall at 0.08 N m. DDPG uses ~2.5x more PWM.
+- Wheel rim: 32 holes, Ø4.3 mm (M4) at r = 57.5 mm, nut pockets. Model: 16 x M4x12 + nut per wheel (~48 g). Iw 4.9e-5 -> 2.1e-4, m = 0.89 kg.
+- With rim bolts: classical now survives 0.08 N m push. Old DDPG agent (trained without bolts) drops to 8/10 on ±0.5° starts -> needs retraining / parameter randomization.
