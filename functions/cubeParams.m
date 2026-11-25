@@ -49,6 +49,11 @@ p.edgeGains   = [190 31 2.5 0.014];
 p.cornerGains = [180 30 1.6 0.008];
 p.yawGains    = [8 0.3];
 
+% Corner conventions (see cornerGeom)
+p.sigX   = 1;                       % sensor x along +/- wheel 3 projection
+p.sigW   = 1;                       % motor positive direction
+p.swap12 = false;                   % motor 1 / 2 on body axes 2 / 1
+
 % Sensors
 p.accNoiseDeg  = 0.3;               % std [deg] (est)
 p.gyroNoiseDps = 0.05;              % std [deg/s] (est)

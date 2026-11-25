@@ -15,3 +15,6 @@
 - Wheel rim: 32 holes, Ø4.3 mm (M4) at r = 57.5 mm, nut pockets. Model: 16 x M4x12 + nut per wheel (~48 g). Iw 4.9e-5 -> 2.1e-4, m = 0.89 kg.
 - With rim bolts: classical now survives 0.08 N m push. Old DDPG agent (trained without bolts) drops to 8/10 on ±0.5° starts -> needs retraining / parameter randomization.
 - From build video: wheels use 32 x M4x10 flat head + nut each (all holes). Frame M3x8 flat head, motors M3x10, controller M2x10. Battery 450-500 mAh 3S1P. Edge balancing works on one edge only (motor 3).
+- Corner model (plain MATLAB 3D, not Simscape: ~100x real time). Pivot on corner, 3 wheels on body axes, sensor perpendicular to diagonal, firmware vertex logic (threeWay_to_XY, XYZ_to_threeWay(-X, Y, -Z), MotorN adds own speed).
+- Sign conventions found by search: only sigX=1, sigW=1, no 1/2 swap balances with firmware gains.
+- Classical corner: 10/10 starts ±1°, mean tilt 0.07°, survives 0.08 N m push.
