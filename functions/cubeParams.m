@@ -12,7 +12,7 @@ vFrame = (24.64 + 1.29 + 5.81 + 6.51 + 16.29 + 1.23 + 41.33 ...
 vWheel = 24.2e-6;                   % one wheel, from STL [m^3]
 
 % Wheel (x3)
-p.rimMass = 16*0.003;               % 16 x M4x12 bolt+nut per wheel (est)
+p.rimMass = 32*0.0025;              % 32 x M4x10 flat head + nut per wheel (video)
 p.rimR    = 0.0575;                 % rim hole radius, from STL [m]
 p.mw = rhoPLA*vWheel + p.rimMass;   % [kg]
 p.Iw = rhoPLA*vWheel*2165e-6 + p.rimMass*p.rimR^2; % STL: I/m = 2165 mm^2
