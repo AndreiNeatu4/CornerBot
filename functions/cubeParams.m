@@ -31,9 +31,9 @@ p.cb = 1e-4;                        % pivot friction [N m s] (est)
 % Motor (Nidec 24H)
 p.Vnom    = 12;                     % [V]
 p.Tstall  = 0.05;                   % at Vnom [N m] (est)
-p.wNoLoad = 400;                    % at Vnom [rad/s] (est)
+p.wNoLoad = 3020*2*pi/60;           % at Vnom, seller data [rad/s]
 p.Vbat    = 11.1;                   % 3S [V]
-p.encCPR  = 400;                    % x4 decoding, 100 PPR (est)
+p.encCPR  = 400;                    % 100 lines x4, seller data
 
 % Firmware
 p.dt        = 0.015;                % loop_time [s]
