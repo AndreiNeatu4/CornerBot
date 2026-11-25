@@ -18,3 +18,5 @@
 - Corner model (plain MATLAB 3D, not Simscape: ~100x real time). Pivot on corner, 3 wheels on body axes, sensor perpendicular to diagonal, firmware vertex logic (threeWay_to_XY, XYZ_to_threeWay(-X, Y, -Z), MotorN adds own speed).
 - Sign conventions found by search: only sigX=1, sigW=1, no 1/2 swap balances with firmware gains.
 - Classical corner: 10/10 starts ±1°, mean tilt 0.07°, survives 0.08 N m push.
+- COM shifted toward corner A (wheels/motors near its faces): 6.7 cm per axis instead of 7.6. Edge l = 9.5 cm.
+- Corner B (opposite, upside down) added: firmware angles Acc_angleY = -atan2(AcX, AcZ), Acc_angleX = atan2(AcY, AcZ). Same gains balance both corners; B slightly more stable (COM 14.7 cm vs 11.6 cm from pivot).

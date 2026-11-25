@@ -25,7 +25,8 @@ h = fig.UserData;
 R = s.R;
 
 [X, Y, Z] = ndgrid([0 a], [0 a], [0 a]);
-set(h.cube, Vertices=([X(:) Y(:) Z(:)]*R'));
+pv = s.g.pivot';
+set(h.cube, Vertices=(([X(:) Y(:) Z(:)] - pv)*R'));
 if s.fallen, h.cube.FaceColor = [1 0.6 0.6]; else, h.cube.FaceColor = [0.75 0.85 1]; end
 
 ang = linspace(0, 2*pi, 30)';
@@ -38,7 +39,7 @@ for i = 1:3
     ring(:,j) = c(j) + rw*[cos(ang) sin(ang)];
     sp = zeros(5,3); sp(:,i) = c(i);
     sp(:,j) = c(j) + rw*[cos(th + sa) sin(th + sa)];
-    ring = ring*R'; sp = sp*R';
+    ring = (ring - pv)*R'; sp = (sp - pv)*R';
     set(h.wheel(i), XData=ring(:,1), YData=ring(:,2), ZData=ring(:,3));
     set(h.spoke(i), XData=sp(:,1), YData=sp(:,2), ZData=sp(:,3));
 end

@@ -1,16 +1,18 @@
 function g = cornerGeom(p)
-% Corner geometry. Body frame: pivot corner, axes along the 3 cube edges.
-% Wheel i spins about body axis i. Sensor z points down the diagonal.
+% Corner geometry. Body frame: corner A, axes along the 3 cube edges.
+% Wheel i spins about body axis i. Sensor z points from B to A.
+% p.corner: 1 = stand on A, 2 = stand on opposite corner B (upside down).
 a = p.a;
-g.r  = a/2*[1; 1; 1];                      % pivot to COM
-g.d  = [1; 1; 1]/sqrt(3);                  % diagonal, up when balanced
 I3 = eye(3);
-k = p.Ib/(p.m*a^2) - 0.5;                  % same body inertia as edge model
-g.Ib = k*p.m*a^2*I3 + p.m*(g.r'*g.r*I3 - g.r*g.r');  % without wheel spin
+g.corner = p.corner;
+g.pivot = (p.corner == 2)*a*[1; 1; 1];
+g.r  = p.comAxis*[1; 1; 1] - g.pivot;      % pivot to COM
+g.d  = g.r/norm(g.r);                      % up when balanced
+g.Ib = p.kIc*p.m*a^2*I3 + p.m*(g.r'*g.r*I3 - g.r*g.r');  % without wheel spin
 g.IbInv = inv(g.Ib);
 
 % Sensor axes in body frame (columns): x along wheel 3 projection
-zs = -g.d;
+zs = -[1; 1; 1]/sqrt(3);
 xs = p.sigX*[-1; -1; 2]/sqrt(6);
 ys = cross(zs, xs);
 g.S = [xs ys zs];

@@ -24,8 +24,14 @@ mMotor = 0.100;                     % Nidec 24H (est)
 mBatt  = 0.045;                     % 3S 500 mAh (est)
 mElec  = 0.070;                     % ESP32, wiring, screws (est)
 p.m  = rhoPLA*vFrame + 3*p.mw + 3*mMotor + mBatt + mElec;
-p.l  = p.a/sqrt(2);                 % edge to COM [m]
-p.Ib = (0.22 + 0.5)*p.m*p.a^2;      % about edge, mostly hollow (est)
+
+% COM: wheels and motors sit near the faces at corner A (video)
+zW = 0.020; zM = 0.045;             % wheel / motor depth from face (est)
+mSet = p.mw + mMotor;
+p.comAxis = ((p.m - 3*mSet)*p.a/2 + 2*mSet*p.a/2 + p.mw*zW + mMotor*zM)/p.m;
+p.kIc = 0.22;                       % body inertia about COM / (m a^2) (est)
+p.l  = sqrt(2)*p.comAxis;           % edge to COM [m]
+p.Ib = p.kIc*p.m*p.a^2 + p.m*p.l^2; % about edge
 p.cb = 1e-4;                        % pivot friction [N m s] (est)
 p.comOffset = 0;                    % COM vs calibrated balance [rad]
 
@@ -53,6 +59,7 @@ p.yawGains    = [8 0.3];
 p.sigX   = 1;                       % sensor x along +/- wheel 3 projection
 p.sigW   = 1;                       % motor positive direction
 p.swap12 = false;                   % motor 1 / 2 on body axes 2 / 1
+p.corner = 1;                       % 1 = corner A (remrc), 2 = opposite corner B
 
 % Sensors
 p.accNoiseDeg  = 0.3;               % std [deg] (est)
