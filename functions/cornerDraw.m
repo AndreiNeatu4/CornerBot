@@ -32,7 +32,7 @@ ang = linspace(0, 2*pi, 30)';
 sa = [0; pi; NaN; pi/2; 3*pi/2];
 for i = 1:3
     j = setdiff(1:3, i);
-    c = a/2*ones(1,3); c(i) = a - in;
+    c = a/2*ones(1,3); c(i) = in;          % faces at the pivot corner
     th = s.g.W(:,i)'*s.g.W*s.psi;          % wheel angle about body axis i
     ring = zeros(30,3); ring(:,i) = c(i);
     ring(:,j) = c(j) + rw*[cos(ang) sin(ang)];
